@@ -62,5 +62,5 @@ AlertView.DefaultColor: 默认文本/背景颜色
 
 ###  6.可继承方法:
 ```
-createButtonView: 创建按钮视图
+createButtonView: 可继承实现自己的按钮视图样式
 ```
