@@ -35,7 +35,10 @@ content: 内容
 buttons: 按钮数组
 ```
 ```
-cancel: '取消'；取消按钮，背景白，文字红#FE3113
+cancel: 取消按钮文本信息。背景白，文字红#FE3113
+```
+```
+defaultColor: 文本&背景颜色(优先级比AlertView.DefaultColor高)
 ```
 
 ###  3.属性方法:
@@ -43,12 +46,12 @@ cancel: '取消'；取消按钮，背景白，文字红#FE3113
 evaluateView: 赋值当前视图对象
 ```
 ```
-buttonClicked(index): 按钮点击事件(从左到右 0-N)
+buttonClicked(index): 按钮点击事件(从左到右 0-N, 取消按钮也算在内)
 ```
 
 ###  4.供外部调用的方法:
 ```
-show(title = '', content = ''): 显示AlertView, 支持修改标题和内容，空串代表不替换之前的文本
+show(data = {}): 显示AlertView, 支持修改类型，标题，内容，按钮，取消按钮 {'type': 1,'title': '标题', 'content': '内容', buttons: ['数组'], cancel: '取消'}
 ```
 ```
 hide: 隐藏AlertView
@@ -56,7 +59,7 @@ hide: 隐藏AlertView
 
 ###  5.可修改配置:
 ```
-AlertView.DefaultColor: 默认文本/背景颜色
+AlertView.DefaultColor: 全局设置文本&背景颜色，默认#AAE039
 ```
 
 

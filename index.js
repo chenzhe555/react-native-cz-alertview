@@ -7,27 +7,23 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 * title: 标题
 * content: 内容
 * buttons: 按钮数组
-* cancel: '取消'；取消按钮，背景白，文字红#FE3113
+* cancel: 取消按钮文本信息。背景白，文字红#FE3113
+* defaultColor: 文本&背景颜色(优先级比AlertView.DefaultColor高)
 *
 * func:
-* buttonClicked(index): 按钮点击事件(从左到右 0-N)
+* buttonClicked(index): 按钮点击事件(从左到右 0-N, 取消按钮也算在内)
 *
 * export func:
-* show(title = '', content = ''): 显示AlertView, 支持修改标题和内容，空串代表不替换之前的文本
+* show(data = {}): 显示AlertView, 支持修改类型，标题，内容，按钮，取消按钮 {'type': 1,'title': '标题', 'content': '内容', buttons: ['数组'], cancel: '取消'}
 * hide: 隐藏AlertView
 *
 * can modify:
-* AlertView.DefaultColor: 默认文本/背景颜色
+* AlertView.DefaultColor: 全局设置文本&背景颜色，默认#AAE039
 *
 * inherit:
 * createButtonView: 可继承实现自己的按钮视图样式
 * */
 export default class AlertView extends Component{
-
-    /*
-    * 默认文本/背景颜色
-    * */
-    static DefaultColor = '#AAE039';
 
     /************************** 生命周期 **************************/
     constructor(props) {
@@ -79,13 +75,13 @@ export default class AlertView extends Component{
 
         let buttonView = null;
         if (buttons.length > 0) {
-            let titleColor = AlertView.DefaultColor;
+            let titleColor = this.getDefaultColor();
             let bgColor = 'white';
             buttonView = buttons.map( (item, index) => {
                 if (type == 2) {
                     if (cancel.length > 0 || (cancel.length == 0 && index != 0) || (cancel.length == 0 && buttons.length == 1)) {
                         titleColor = 'white';
-                        bgColor = AlertView.DefaultColor;
+                        bgColor = this.getDefaultColor();
                     }
                 }
                 let lineView = null;
@@ -95,8 +91,8 @@ export default class AlertView extends Component{
                 return (
                     <View style={[{flexDirection: 'row', flex: 1}]}>
                         {lineView}
-                        <TouchableOpacity onPress={this.buttonClicked.bind(this, cancel.length > 0 ? index + 1 : index)} style={[{flex: 1}]}>
-                            <View style={[styles.TitleCenter, {backgroundColor: bgColor}]}>
+                        <TouchableOpacity onPress={this.buttonClicked.bind(this, cancel.length > 0 ? (index + 1) : index)} style={[{flex: 1}]}>
+                            <View style={[styles.TitleCenter, {backgroundColor: bgColor, borderBottomLeftRadius: ((cancel.length == 0 && index == 0) ? 6 : 0), borderBottomRightRadius: ((index == buttons.length-1) ? 6 : 0)}]}>
                                 <Text style={[styles.ButtonTextView, {color: titleColor }]}>{item}</Text>
                             </View>
                         </TouchableOpacity>
@@ -110,7 +106,7 @@ export default class AlertView extends Component{
                 {
                     cancel.length > 0 ? (
                         <TouchableOpacity onPress={this.buttonClicked.bind(this, 0)} style={{flex: 1}}>
-                            <View style={[styles.TitleCenter]}>
+                            <View style={[styles.TitleCenter, {borderBottomLeftRadius: 6}]}>
                                 <Text style={[styles.ButtonTextView, {color: '#FE3113'}]}>{cancel}</Text>
                             </View>
                         </TouchableOpacity>
@@ -145,15 +141,17 @@ export default class AlertView extends Component{
     /************************** 子组件回调方法 **************************/
     /************************** 外部调用方法 **************************/
     /*
-    * 显示AlertView, 支持修改标题和内容，空串代表不替换之前的文本
+    * 显示AlertView, 支持修改类型，标题，内容，按钮，取消按钮
+    * {'type': 1,'title': '标题', 'content': '内容', buttons: ['数组'], cancel: '取消'}
     * */
-    show = (title = '', content = '') => {
-        let aTitle = title.length > 0 ? title : this.state.title;
-        let aContent = content.length > 0 ? content : this.state.content;
+    show = (data = {}) => {
         this.setState({
             show: true,
-            title: aTitle,
-            content: aContent
+            type: data['type'] ? data['type'] : this.state.type,
+            title: data['title'] ? data['title'] : this.state.title,
+            content: data['content'] ? data['content'] : this.state.content,
+            buttons: data['buttons'] ? data['buttons'] : this.state.buttons,
+            cancel: data['cancel'] ? data['cancel'] : this.state.cancel
         });
     }
 
@@ -164,6 +162,13 @@ export default class AlertView extends Component{
         this.setState({
             show: false
         });
+    }
+
+    /*
+    * 获取文本&背景颜色
+    * */
+    getDefaultColor = () => {
+        return this.props.defaultColor ? this.props.defaultColor : (AlertView.DefaultColor ? AlertView.DefaultColor : '#AAE039');
     }
     /************************** List相关方法 **************************/
     /************************** Render中方法 **************************/
