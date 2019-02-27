@@ -26,8 +26,10 @@ import AlertView from "react-native-cz-alertview";
 type: 1.背景白，文字默认#AAE039 2.第一个背景白文字#AAE039，后面的都是背景#AAE039，文字白
 ```
 ![type=1](https://github.com/chenzhe555/react-native-cz-alertview/blob/master/images/type1.png)
+type=1
 
 ![type=2](https://github.com/chenzhe555/react-native-cz-alertview/blob/master/images/type2.png)
+type=2
 ```
 title: 标题
 ```
