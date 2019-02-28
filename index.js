@@ -21,7 +21,9 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 * AlertView.DefaultColor: 全局设置文本&背景颜色，默认#AAE039
 *
 * inherit:
-* createButtonView: 可继承实现自己的按钮视图样式
+* createTitelView: 可继承实现自己的标题视图
+* createContentView: 可继承实现自己的内容视图
+* createButtonView: 可继承实现自己的按钮视图
 * */
 export default class AlertView extends Component{
 
