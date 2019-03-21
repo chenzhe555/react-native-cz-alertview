@@ -92,7 +92,7 @@ export default class AlertView extends Component{
                     lineView = (<View style={[{backgroundColor: '#EBEBEB', width: 1}]}></View>);
                 }
                 return (
-                    <View style={[{flexDirection: 'row', flex: 1}]}>
+                    <View style={[{flexDirection: 'row', flex: 1}]} key={index}>
                         {lineView}
                         <TouchableOpacity onPress={this.buttonClicked.bind(this, cancel.length > 0 ? (index + 1) : index)} style={[{flex: 1}]}>
                             <View style={[styles.TitleCenter, {backgroundColor: bgColor, borderBottomLeftRadius: ((cancel.length == 0 && index == 0) ? 6 : 0), borderBottomRightRadius: ((index == buttons.length-1) ? 6 : 0)}]}>
