@@ -9,6 +9,7 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 * buttons: 按钮数组
 * cancel: 取消按钮文本信息。背景白，文字红#FE3113
 * defaultColor: 文本&背景颜色(优先级比AlertView.DefaultColor高)
+* isRequestClose: 回调会在用户按下 Android 设备上的后退按键或是 Apple TV 上的菜单键时是否关闭Modal,默认true
 *
 * func:
 * buttonClicked(index): 按钮点击事件(从左到右 0-N, 取消按钮也算在内)
@@ -174,6 +175,14 @@ export default class AlertView extends Component{
     }
     /************************** List相关方法 **************************/
     /************************** Render中方法 **************************/
+    /*
+    * Android 设备上的后退按键或是 Apple TV 上的菜单键触发事件
+    * */
+    _onRequestClose = () => {
+        const { isRequestClose = true } = this.props;
+        if (isRequestClose) this.hide();
+    }
+    
     render() {
         const { show } = this.state;
         if (!show) return null;
@@ -190,6 +199,7 @@ export default class AlertView extends Component{
                 visible={true}
                 animateType={'fade'}
                 transparent={true}
+                onRequestClose={this._onRequestClose}
             >
                 <View style={[styles.MainView]}>
                     <View style={[styles.ContentMainView]}>

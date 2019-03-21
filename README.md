@@ -45,6 +45,10 @@ cancel: 取消按钮文本信息。背景白，文字红#FE3113
 ```
 defaultColor: 文本&背景颜色(优先级比AlertView.DefaultColor高)
 ```
+```
+isRequestClose: 回调会在用户按下 Android 设备上的后退按键或是 Apple TV 上的菜单键时是否关闭Modal,默认true
+```
+
 
 ###  3.属性方法:
 ```
